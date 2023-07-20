@@ -1,6 +1,6 @@
 CC = c++
 NAME = btc
-FLAGS = -Wall -Werror -Wextra -std=c++98 
+FLAGS = -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g
 FILES = main.cpp BitcoinExchange.cpp
 FILES_O = $(FILES:.cpp=.o)
 

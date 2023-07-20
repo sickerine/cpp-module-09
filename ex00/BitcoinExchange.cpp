@@ -6,7 +6,7 @@
 /*   By: mcharrad <mcharrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 10:54:52 by mcharrad          #+#    #+#             */
-/*   Updated: 2023/07/11 09:10:18 by mcharrad         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:20:28 by mcharrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,16 @@ T numberChecks(char *endptr, T value, const std::string &str)
 
 int stoint(const std::string &str)
 {
-    char *endptr;
-    return numberChecks(endptr, std::strtol(str.c_str(), &endptr, 10), str);
+    char *endptr = 0;
+    long value = std::strtol(str.c_str(), &endptr, 10);
+    return numberChecks(endptr, value, str);
 }
 
 float stofloat(const std::string &str)
 {
-    char *endptr;
-    return numberChecks(endptr, std::strtod(str.c_str(), &endptr), str);
+    char *endptr = 0;
+    double value = std::strtod(str.c_str(), &endptr);
+    return numberChecks(endptr, value, str);
 }
 
 void parseLine(const std::string &buff, std::time_t &time, float &priceF, std::map<int, std::string> &splits, const std::string &delimiter = ",")
@@ -63,6 +65,7 @@ void parseLine(const std::string &buff, std::time_t &time, float &priceF, std::m
 
     std::string date = splits[0];
     std::string price = splits[1];
+
     std::map<int, std::string> dateSplits = split(date, "-");
     if (dateSplits.size() != 3)
         throw std::runtime_error("Error: bad input => " + date);
@@ -70,6 +73,7 @@ void parseLine(const std::string &buff, std::time_t &time, float &priceF, std::m
     int year = stoint(dateSplits[0]);
     int month = stoint(dateSplits[1]);
     int day = stoint(dateSplits[2]);
+
     if (month < 1 || month > 12 || day < 1 || day > 31 || year < 1970 || year >= 2038)
         throw std::runtime_error("Error: bad input => " + date);
 
@@ -134,9 +138,9 @@ void BitcoinExchange::executeInput(const std::string &name) const
             float priceF;
             parseLine(buff, time, priceF, splits, " | ");
             std::map<time_t, float>::const_iterator it = db.lower_bound(time);
-            if (it->first != time)
+            if (it == db.end() || (it != db.begin() && it->first != time))
                 it--;
-            if (it == db.end())
+            else if (it->first != time)
                 throw std::runtime_error("Error: no data for this date.");
             double mult = priceF * (it->second);
             std::cout << splits[0] << " => " << splits[1] << " = " << mult << std::endl;

@@ -6,7 +6,7 @@
 /*   By: mcharrad <mcharrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 10:50:55 by mcharrad          #+#    #+#             */
-/*   Updated: 2023/07/11 07:55:35 by mcharrad         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:02:15 by mcharrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <stdexcept>
 
 class BitcoinExchange {
     private:
