@@ -6,7 +6,7 @@
 /*   By: mcharrad <mcharrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:04:51 by mcharrad          #+#    #+#             */
-/*   Updated: 2023/07/17 12:12:02 by mcharrad         ###   ########.fr       */
+/*   Updated: 2023/07/20 10:57:53 by mcharrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int stoi(char *str)
     return conv;
 }
 
+
 template <typename T, typename U>
-void ford(T &container, U contained, int argc, char **argv, bool basic = false)
+U ford(T &container, U contained, int argc, char **argv)
 {
     U input;
     int i = 1;
@@ -50,12 +51,6 @@ void ford(T &container, U contained, int argc, char **argv, bool basic = false)
     while (i < argc)
         input.push_back(stoi(argv[i++]));
     
-    if (basic == true)
-    {
-        std::sort(input.begin(), input.end());
-        return;
-    }
-
     for (typename U::iterator it = input.begin(); it != input.end(); it++)
     {
         U pair;
@@ -96,6 +91,8 @@ void ford(T &container, U contained, int argc, char **argv, bool basic = false)
         typename U::iterator pos = std::lower_bound(min.begin(), min.end(), *it);
         min.insert(pos, *it);
     }
+
+    return min;
 }
 
 #include <map>
@@ -104,22 +101,37 @@ void ford(T &container, U contained, int argc, char **argv, bool basic = false)
 
 void PmergeMe::sortVector(int argc, char **argv)
 {
+    (void)argv;
+    (void)argc;
 
-    std::vector<std::list<std::map<char **, std::stack<std::vector<std::list<std::map<char **, std::stack<int>>>>>>>> value;
+    double times[2] = {0, 0};
 
-    std::clock_t start_v = std::clock();
-    ford(vec, std::vector<int>(), argc, argv);
-    std::cout << (static_cast<double>(std::clock() - start_v) / CLOCKS_PER_SEC) * 1000000 << std::endl;
+    try {
+        std::clock_t start_v = std::clock();
+        std::vector<int> ret_v = ford(vec, std::vector<int>(), argc, argv);
+        times[0] = (static_cast<double>(std::clock() - start_v) / CLOCKS_PER_SEC) * 1000000;
 
-    std::clock_t start_vb = std::clock();
-    ford(vec, std::vector<int>(), argc, argv, true);
-    std::cout << (static_cast<double>(std::clock() - start_vb) / CLOCKS_PER_SEC) * 1000000 << std::endl;
 
-    // std::clock_t start_l = std::clock();
-    // ford(lst, std::list<int>(), argc, argv);
-    // std::cout << (static_cast<double>(std::clock() - start_l) / CLOCKS_PER_SEC) * 1000000 << std::endl;
+        std::clock_t start_l = std::clock();
+        std::list<int> ret_l = ford(lst, std::list<int>(), argc, argv);
+        times[1] = (static_cast<double>(std::clock() - start_l) / CLOCKS_PER_SEC) * 1000000;
 
-    // std::clock_t start_d = std::clock();
-    // ford(que, std::deque<int>(), argc, argv);
-    // std::cout << (static_cast<double>(std::clock() - start_d) / CLOCKS_PER_SEC) * 1000000 << std::endl;
+        std::cout << "Before:   ";
+        for (int i = 1; i < argc; i++)
+            std::cout << argv[i] << " ";
+            
+        std::cout << std::endl;
+        
+        std::cout << "After:    ";
+        for (std::vector<int>::iterator it = ret_v.begin(); it != ret_v.end(); it++)
+            std::cout << *it << " ";
+        std::cout << std::endl;
+
+        std::cout << "Time to process a range of " << ret_v.size() << " elements with std::vector<int> : " << times[0] << " μs" << std::endl;
+        std::cout << "Time to process a range of " << ret_l.size() << " elements with std::list<int> : " << times[1] << " μs" << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 }

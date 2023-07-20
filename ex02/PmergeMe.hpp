@@ -6,7 +6,7 @@
 /*   By: mcharrad <mcharrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:01:09 by mcharrad          #+#    #+#             */
-/*   Updated: 2023/07/12 11:33:39 by mcharrad         ###   ########.fr       */
+/*   Updated: 2023/07/20 10:54:00 by mcharrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ class PmergeMe {
     private:
         std::vector< std::vector<int> > vec;
         std::list< std::list<int> > lst;
-        std::deque< std::deque<int> > que;
     public:
         PmergeMe();
         ~PmergeMe();

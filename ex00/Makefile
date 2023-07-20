@@ -10,8 +10,6 @@ FILES_O = $(FILES:.cpp=.o)
 $(NAME): $(FILES_O)
 	$(CC) $(FLAGS) $(FILES_O) -o $(NAME) 
 
-bonus: $(NAME)
-
 all: $(NAME)
 
 clean:
@@ -22,4 +20,4 @@ fclean: clean
 
 re: fclean $(NAME)
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

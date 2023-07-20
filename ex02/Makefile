@@ -1,6 +1,6 @@
 CC = c++
-NAME = merge
-FLAGS = -Wall -Werror -Wextra #-std=c++98 
+NAME = PmergeMe
+FLAGS = -Wall -Werror -Wextra -std=c++98 
 FILES = main.cpp PmergeMe.cpp
 FILES_O = $(FILES:.cpp=.o)
 
@@ -9,8 +9,6 @@ FILES_O = $(FILES:.cpp=.o)
 
 $(NAME): $(FILES_O)
 	$(CC) $(FLAGS) $(FILES_O) -o $(NAME) 
-
-bonus: $(NAME)
 
 all: $(NAME)
 
@@ -22,4 +20,4 @@ fclean: clean
 
 re: fclean $(NAME)
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
